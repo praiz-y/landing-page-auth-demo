@@ -3,6 +3,9 @@
 Var Notes is a lightweight note-taking and productivity web app built with HTML, CSS, and JavaScript.  
 It allows users to create accounts, log in, and access a simple dashboard for tracking notes and goals — all stored locally for demonstration purposes.
 
+-
+Live Link:: https://landingpagedemoz.netlify.app/ 
+
 ---
 
 ## Features
