@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <nav class="dash-nav">
+    <div class="dash-logo">Var<span>Notes</span></div>
+
+    <div class="dash-nav-right">
+      <span class="dash-username js-username"></span>
+      <div class="dash-avatar js-initial">?</div>
+      <button class="logout-btn js-logout">Log out</button>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+
+    <div class="welcome-block">
+      <div class="status-row">
+        <div class="status-dot"></div>
+        <span class="status-text">Workspace active</span>
+      </div>
+
+      <h1>
+        Welcome back,
+        <span class="js-username">Creator</span>
+      </h1>
+
+      <p>Here’s a quick look at your workspace. Keep building.</p>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-label">Total Notes</div>
+        <div class="stat-value" data-count="247">0</div>
+        <div class="stat-change">+12 this week</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Goals Completed</div>
+        <div class="stat-value" data-count="38">0</div>
+        <div class="stat-change">+3 this month</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Day Streak</div>
+        <div class="stat-value" data-count="14" data-suffix="d">0</div>
+        <div class="stat-change neutral">Personal best</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Ideas Launched</div>
+        <div class="stat-value" data-count="6">0</div>
+        <div class="stat-change">+2 this week</div>
+      </div>
+
+    </div>
+
+    <div class="dash-row">
+
+      <div class="dash-panel">
+        <div class="dash-panel-title">Recent Activity</div>
+        <div class="activity-list"></div>
+      </div>
+
+      <div class="dash-panel delay">
+        <div class="dash-panel-title">Weekly Notes</div>
+
+        <div class="chart-wrap">
+          <div class="chart-bars">
+            <div class="chart-bar-col">
+              <div class="chart-bar" data-h="40px" style="height:0"></div>
+              <div class="chart-bar-lbl">M</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar active" data-h="65px" style="height:0"></div>
+              <div class="chart-bar-lbl">T</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar" data-h="50px" style="height:0"></div>
+              <div class="chart-bar-lbl">W</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar" data-h="30px" style="height:0"></div>
+              <div class="chart-bar-lbl">T</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar active" data-h="75px" style="height:0"></div>
+              <div class="chart-bar-lbl">F</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar" data-h="55px" style="height:0"></div>
+              <div class="chart-bar-lbl">S</div>
+            </div>
+
+            <div class="chart-bar-col">
+              <div class="chart-bar active" data-h="68px" style="height:0"></div>
+              <div class="chart-bar-lbl">S</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-panel-title dash-mt">Quick Info</div>
+
+        <div class="info-row">
+          <span class="info-label">Productivity score</span>
+          <span class="info-value green">94 / 100</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Focus hours today</span>
+          <span class="info-value">3h 45m</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Tasks due today</span>
+          <span class="info-value">5</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Active boards</span>
+          <span class="info-value green">4</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/dashboard.js"></script>
+
+</body>
+</html>

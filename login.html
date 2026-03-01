@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <div class="auth-topbar">
+    <a href="index.html" class="logo">
+        <img src="images/Logo.png" alt="Var Notes icon" class="logo-icon">
+        Var<span>Notes</span>
+    </a>
+    <a href="signup.html" class="auth-topbar-link">No account? Sign up</a>
+  </div>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <a href="index.html" class="auth-back">← Back to home</a>
+
+      <div class="auth-card-header">
+        <h1 class="auth-card-title">Welcome back</h1>
+        <p class="auth-card-sub">
+          Don’t have an account?
+          <a href="signup.html">Sign up free</a>
+        </p>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            class="form-control"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+
+          <div class="field-wrap">
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-control"
+              placeholder="Your password"
+              autocomplete="current-password"
+            >
+            <button type="button" class="pwd-toggle">show</button>
+          </div>
+
+          <div class="form-error"></div>
+        </div>
+
+        <button type="submit" class="btn-auth" id="loginBtn">
+          Log In
+        </button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <p class="auth-alt-text">
+        New to Var Notes?
+        <a href="signup.html">Create a free account</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <div class="auth-topbar">
+    <a href="index.html" class="logo">
+        <img src="images/Logo.png" alt="Var Notes icon" class="logo-icon">
+        Var<span>Notes</span>
+    </a>
+    <a href="login.html" class="auth-topbar-link">
+      Already have an account? Log in
+    </a>
+  </div>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <a href="index.html" class="auth-back">← Back to home</a>
+
+      <div class="auth-card-header">
+        <h1 class="auth-card-title">Create account</h1>
+        <p class="auth-card-sub">
+          Already registered?
+          <a href="login.html">Log in</a>
+        </p>
+      </div>
+
+      <form id="signupForm" novalidate>
+
+        <div class="form-group">
+          <label for="signupUsername" class="form-label">Username</label>
+          <input
+            type="text"
+            id="signupUsername"
+            class="form-control"
+            placeholder="yourname"
+            autocomplete="username"
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail" class="form-label">Email</label>
+          <input
+            type="email"
+            id="signupEmail"
+            class="form-control"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword" class="form-label">Password</label>
+
+          <div class="field-wrap">
+            <input
+              type="password"
+              id="signupPassword"
+              class="form-control"
+              placeholder="Min. 6 characters"
+              autocomplete="new-password"
+            >
+            <button type="button" class="pwd-toggle">show</button>
+          </div>
+
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupConfirm" class="form-label">Confirm Password</label>
+
+          <div class="field-wrap">
+            <input
+              type="password"
+              id="signupConfirm"
+              class="form-control"
+              placeholder="Repeat your password"
+              autocomplete="new-password"
+            >
+            <button type="button" class="pwd-toggle">show</button>
+          </div>
+
+          <div class="form-error"></div>
+        </div>
+
+        <button type="submit" class="btn-auth" id="signupBtn">
+          Create Account
+        </button>
+
+      </form>
+
+      <p class="auth-legal">
+        By signing up you agree to our Terms of Service and Privacy Policy.
+      </p>
+
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>

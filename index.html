@@ -1,83 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Var Notes</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <h2 class="logo"><img src="images/Logo.png" alt="">Var Notes</h2>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+         <img src="images/logo.png" alt="Var Notes icon" class="logo-icon">
+         Var<span>Notes</span>
+    </a>
 
-        <div class="menu">
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#features">Features</a></li>
-            </ul>
+    <div class="menu">
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+      </ul>
 
-            <div class="auth-buttons">
-                <a href="login.html" class="login-btn">Login</a>
-                <a href="signup.html" class="signup-btn">Sign Up</a>
-            </div>
-        </div>
+      <div class="auth-buttons">
+        <a href="login.html" class="login-btn">Login</a>
+        <a href="signup.html" class="signup-btn">Sign Up</a>
+      </div>
+    </div>
 
-        <!-- Hamburger Menu -->
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Turn Your Ideas Into Missions</h1>
-            <p>Var Notes helps creators organize thoughts, track goals, and launch ideas faster than ever.</p>
+  <div class="mobile-menu">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
 
-            <a href="signup.html" class="cta-btn">Get Started</a>
-        </div>
-    </section>
+    <div class="mobile-auth">
+      <a href="login.html" class="login-btn">Login</a>
+      <a href="signup.html" class="signup-btn">Sign Up</a>
+    </div>
+  </div>
 
-    <section id="features" class="features">
-        <h2>Features</h2>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Turn Ideas Into<br><em>Missions</em></h1>
+      <p>Var Notes helps creators organize thoughts, track goals, and launch ideas faster than ever. Your workspace, your flow.</p>
 
-        <div class="feature-container">
+      <div class="hero-actions">
+        <a href="signup.html" class="btn btn-primary">Get Started Free</a>
+        <a href="#features" class="btn btn-outline">See Features</a>
+      </div>
+    </div>
 
-            <div class="feature-card">
-                <h3>⭐ Galaxy Boards</h3>
-                <p>Organize tasks visually like constellations.</p>
-            </div>
+    <div class="hero-floats">
+      <div class="float-card">
+        <div class="float-label">Notes Created</div>
+        <div class="float-value" data-count="12489">0</div>
+        <div class="float-sub">+24% this week</div>
+      </div>
 
-            <div class="feature-card">
-                <h3>⚡ Focus Mode</h3>
-                <p>Distraction-free workspace.</p>
-            </div>
+      <div class="float-card">
+        <div class="float-label">Goals Completed</div>
+        <div class="float-value" data-count="3841">0</div>
+        <div class="float-sub">+18% this month</div>
+      </div>
 
-            <div class="feature-card">
-                <h3>🤝 Team Orbit</h3>
-                <p>Collaborate with friends in real time.</p>
-            </div>
+      <div class="float-card">
+        <div class="float-label">Active Creators</div>
+        <div class="float-value" data-count="5200" data-suffix="+">0</div>
+        <div class="float-sub">Growing daily</div>
+      </div>
+    </div>
+  </section>
 
-             <div class="feature-card">
-                <h3>📊 Mission Analytics</h3>
-                <p>Track productivity progress.</p>
-            </div>
+  <section id="features" class="features">
+    <div class="section-header reveal">
+      <span class="section-label">Features</span>
+      <h2 class="section-title">
+        Built for how<br>creators actually think
+      </h2>
+      <p class="section-sub">
+        Everything you need to go from raw idea to shipped project —
+        without the noise.
+      </p>
+    </div>
 
-        </div>
-    </section>
-    
-    <section class="cta">
-        <h2>Ready to get started?</h2>
-        <p>Create your account and explore the dashboard.</p>
-        <a href="signup.html" class="cta-btn">Sign Up Now</a>
-    </section>
+    <div class="feature-grid">
+      <div class="feature-card reveal delay-1">
+        <div class="feature-tag">Organize</div>
+        <h3>Galaxy Boards</h3>
+        <p>
+          Arrange tasks visually and connect related ideas
+          in a canvas that mirrors how your brain works.
+        </p>
+      </div>
 
-    <footer>
-        <p>© 2026 VarNotes.</p>
-    </footer>
+      <div class="feature-card reveal delay-2">
+        <div class="feature-tag">Focus</div>
+        <h3>Focus Mode</h3>
+        <p>
+          One task, zero distractions. A clean workspace
+          so you can get into deep work and stay there.
+        </p>
+      </div>
 
-    <script src="js/dashboard.js"></script>
+      <div class="feature-card reveal delay-3">
+        <div class="feature-tag">Collaborate</div>
+        <h3>Team Orbit</h3>
+        <p>
+          Share boards, assign goals, and track progress
+          with teammates in real time.
+        </p>
+      </div>
+
+      <div class="feature-card reveal delay-4">
+        <div class="feature-tag">Track</div>
+        <h3>Mission Analytics</h3>
+        <p>
+          Understand your productivity with clear charts
+          and streaks that show what’s working.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="how-it-works">
+    <div class="section-header reveal">
+      <span class="section-label">How It Works</span>
+      <h2 class="section-title">
+        From idea to impact<br>in four steps
+      </h2>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step reveal delay-1">
+        <div class="step-num">Step 01</div>
+        <h3>Capture the Spark</h3>
+        <p>Dump every idea into your inbox instantly. No formatting needed.</p>
+      </div>
+
+      <div class="step reveal delay-2">
+        <div class="step-num">Step 02</div>
+        <h3>Organize and Connect</h3>
+        <p>Sort notes into boards, link ideas, and see the big picture clearly.</p>
+      </div>
+
+      <div class="step reveal delay-3">
+        <div class="step-num">Step 03</div>
+        <h3>Set Your Mission</h3>
+        <p>Turn notes into trackable goals with deadlines and priorities.</p>
+      </div>
+
+      <div class="step reveal delay-4">
+        <div class="step-num">Step 04</div>
+        <h3>Launch and Track</h3>
+        <p>Execute with focus, measure results, and ship ideas faster.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-box reveal">
+      <h2>Ready to start?</h2>
+      <p>Create your free account and set up your workspace in under a minute.</p>
+
+      <div class="cta-actions">
+        <a href="signup.html" class="btn btn-primary">Sign Up Free</a>
+        <a href="login.html" class="btn btn-outline">Log In</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Var<span>Notes</span></div>
+    <p>© 2026 VarNotes. Built for creators.</p>
+  </footer>
+
+  <script src="js/utils.js"></script>
+  <script src="js/landing.js"></script>
+
 </body>
 </html>
