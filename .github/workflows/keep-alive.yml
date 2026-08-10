@@ -1,0 +1,38 @@
+name: Keep Supabase Alive
+
+# Supabase's free tier pauses a project after 7 days with no API activity,
+# which makes the deployed site unreachable for real visitors until someone
+# manually resumes it from the dashboard. Pinging the project twice a week
+# keeps it under that threshold with margin, so a single delayed run can't
+# accidentally cross it.
+#
+# This doubles as monitoring: if the ping ever fails (project actually
+# down, a Supabase account limit hit again, etc.), this workflow run fails
+# and GitHub emails the repo owner automatically — no extra setup needed.
+#
+# Note: GitHub disables scheduled workflows after 60 days of no other repo
+# activity (commits, PRs, etc.). Not a concern during active development,
+# but worth knowing if this repo goes quiet for a couple of months.
+
+on:
+  schedule:
+    - cron: '0 12 * * 1,4' # Monday and Thursday, 12:00 UTC
+  workflow_dispatch: # allows a manual "Run workflow" click to test it
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - name: Ping Supabase
+        run: node scripts/check-supabase.js
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

@@ -24,6 +24,27 @@
   color: var(--green);
 }
 
+.dash-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.dash-nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  transition: color var(--tr);
+}
+
+.dash-nav-links a:hover {
+  color: var(--white);
+}
+
+.dash-nav-links a.active {
+  color: var(--green);
+}
+
 .dash-nav-right {
   display: flex;
   align-items: center;
@@ -284,6 +305,10 @@
   color: var(--green);
 }
 
+.info-value.red {
+  color: var(--red);
+}
+
 /* Chart */
 .chart-wrap {
   margin-bottom: 1rem;
@@ -374,4 +399,200 @@
   .stats-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 640px) {
+  .dash-nav-links {
+    display: none;
+  }
+}
+
+/* Page head (Notes / Goals) */
+.page-head {
+  margin-bottom: 2rem;
+}
+
+.page-head h1 {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.page-head p {
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* Entry form (shared: notes + goals) */
+.entry-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.entry-form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.entry-form-row .form-group {
+  flex: 1;
+}
+
+.entry-form-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.btn-inline {
+  width: auto;
+  padding: 0.7rem 1.4rem;
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color var(--tr);
+}
+
+.btn-cancel:hover {
+  color: var(--white);
+}
+
+.entry-empty {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Notes list */
+.note-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.note-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.note-card-title {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.note-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.note-card-actions button {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.2rem 0.35rem;
+  transition: color var(--tr);
+}
+
+.note-card-actions .js-edit-note:hover {
+  color: var(--green);
+}
+
+.note-card-actions .js-delete-note:hover {
+  color: var(--red);
+}
+
+.note-card-body {
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.note-card-time {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+}
+
+/* Goals list */
+.goal-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.6rem;
+}
+
+.goal-check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+  cursor: pointer;
+}
+
+.goal-check input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--green);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.goal-title {
+  font-size: 0.88rem;
+  color: var(--white);
+}
+
+.goal-item.done .goal-title {
+  color: var(--text-dim);
+  text-decoration: line-through;
+}
+
+.goal-due {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.goal-delete {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.35rem;
+  flex-shrink: 0;
+  transition: color var(--tr);
+}
+
+.goal-delete:hover {
+  color: var(--red);
 }

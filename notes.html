@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes - Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <nav class="dash-nav">
+    <div class="dash-logo">Var<span>Notes</span></div>
+
+    <div class="dash-nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="notes.html" class="active">Notes</a>
+      <a href="goals.html">Goals</a>
+    </div>
+
+    <div class="dash-nav-right">
+      <span class="dash-username js-username"></span>
+      <div class="dash-avatar js-initial">?</div>
+      <button class="logout-btn js-logout">Log out</button>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+
+    <div class="page-head">
+      <h1>Notes</h1>
+      <p>Capture an idea, edit it later, delete it when it's done.</p>
+    </div>
+
+    <form id="noteForm" class="entry-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="noteTitle">Title</label>
+        <input
+          type="text"
+          id="noteTitle"
+          class="form-control"
+          placeholder="What's the idea?"
+        >
+        <div class="form-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="noteBody">Details</label>
+        <textarea
+          id="noteBody"
+          class="form-control"
+          rows="3"
+          placeholder="Optional — add more context"
+        ></textarea>
+      </div>
+
+      <div class="entry-form-actions">
+        <button type="submit" class="btn-auth btn-inline" id="noteSubmitBtn">Add Note</button>
+        <button type="button" class="btn-cancel" id="noteCancelBtn" hidden>Cancel</button>
+      </div>
+    </form>
+
+    <div class="entry-list notes-list"></div>
+    <p class="entry-empty notes-empty">No notes yet — add your first one above.</p>
+
+  </main>
+
+  <script type="module" src="/src/notes.js"></script>
+
+</body>
+</html>

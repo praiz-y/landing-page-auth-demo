@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goals - Var Notes</title>
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <nav class="dash-nav">
+    <div class="dash-logo">Var<span>Notes</span></div>
+
+    <div class="dash-nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="notes.html">Notes</a>
+      <a href="goals.html" class="active">Goals</a>
+    </div>
+
+    <div class="dash-nav-right">
+      <span class="dash-username js-username"></span>
+      <div class="dash-avatar js-initial">?</div>
+      <button class="logout-btn js-logout">Log out</button>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+
+    <div class="page-head">
+      <h1>Goals</h1>
+      <p>Turn a note into something trackable, then check it off.</p>
+    </div>
+
+    <form id="goalForm" class="entry-form" novalidate>
+      <div class="entry-form-row">
+        <div class="form-group">
+          <label class="form-label" for="goalTitle">Title</label>
+          <input
+            type="text"
+            id="goalTitle"
+            class="form-control"
+            placeholder="What are you working toward?"
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="goalDue">Due date</label>
+          <input type="date" id="goalDue" class="form-control">
+        </div>
+      </div>
+
+      <div class="entry-form-actions">
+        <button type="submit" class="btn-auth btn-inline" id="goalSubmitBtn">Add Goal</button>
+      </div>
+    </form>
+
+    <div class="entry-list goals-list"></div>
+    <p class="entry-empty goals-empty">No goals yet — add your first one above.</p>
+
+  </main>
+
+  <script type="module" src="/src/goals.js"></script>
+
+</body>
+</html>

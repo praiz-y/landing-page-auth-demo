@@ -1,0 +1,28 @@
+{
+  "name": "var-notes",
+  "version": "0.1.0",
+  "description": "Var Notes — a notes and goals workspace, built with HTML, CSS, JS, Vite, and Supabase.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:supabase": "node --env-file=.env.local scripts/check-supabase.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/praiz-y/landing-page-auth-demo.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/praiz-y/landing-page-auth-demo/issues"
+  },
+  "homepage": "https://github.com/praiz-y/landing-page-auth-demo#readme",
+  "devDependencies": {
+    "vite": "^8.1.5"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.111.0"
+  }
+}

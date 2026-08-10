@@ -28,12 +28,17 @@ It allows users to create accounts, log in, and access a simple dashboard for tr
         auth.css
         dashboard.css
 
-    /js
+    /public/js
         utils.js
         landing.js
         auth.js
         dashboard.js
 
+    /src/lib
+        supabaseClient.js
+
+    /docs        product overview + roadmap
+    /.ai         log of changes made, by session
 
 ---
 
@@ -49,18 +54,26 @@ It allows users to create accounts, log in, and access a simple dashboard for tr
 
 ## Setup
 
-1. Open the project folder  
-2. Run with a local server (optional but recommended)
-3. Open `index.html` in a browser  
+The project is being migrated from a no-build static site to a
+Supabase-backed app (see `docs/roadmap.md`). Current setup:
+
+1. `npm install`
+2. Copy `.env.example` to `.env.local` and fill in your Supabase project URL
+   and anon key (Project Settings > API in the Supabase dashboard)
+3. `npm run dev` and open the printed local URL
 4. Create an account and explore the dashboard
+
+Auth and the dashboard still run on demo data (`localStorage`) until later
+roadmap phases land — see `docs/product-overview.md` and `docs/roadmap.md`
+for where this is headed, and `.ai/` for a log of what's been done so far.
 
 ---
 
 ## Tech Stack
 
-- HTML5  
-- CSS3  
-- JavaScript (ES6)
+- HTML5, CSS3, JavaScript (ES6)
+- [Vite](https://vitejs.dev) for the dev server and build
+- [Supabase](https://supabase.com) (Postgres + Auth) — being wired in, see `docs/roadmap.md`
 
 ---
 

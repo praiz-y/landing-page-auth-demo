@@ -12,6 +12,12 @@
   <nav class="dash-nav">
     <div class="dash-logo">Var<span>Notes</span></div>
 
+    <div class="dash-nav-links">
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="notes.html">Notes</a>
+      <a href="goals.html">Goals</a>
+    </div>
+
     <div class="dash-nav-right">
       <span class="dash-username js-username"></span>
       <div class="dash-avatar js-initial">?</div>
@@ -39,26 +45,26 @@
 
       <div class="stat-card">
         <div class="stat-label">Total Notes</div>
-        <div class="stat-value" data-count="247">0</div>
-        <div class="stat-change">+12 this week</div>
+        <div class="stat-value" id="statNotes">0</div>
+        <div class="stat-change" id="statNotesChange"></div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Goals Completed</div>
-        <div class="stat-value" data-count="38">0</div>
-        <div class="stat-change">+3 this month</div>
+        <div class="stat-value" id="statGoalsDone">0</div>
+        <div class="stat-change" id="statGoalsDoneChange"></div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Day Streak</div>
-        <div class="stat-value" data-count="14" data-suffix="d">0</div>
-        <div class="stat-change neutral">Personal best</div>
+        <div class="stat-value" id="statStreak">0</div>
+        <div class="stat-change neutral" id="statStreakChange"></div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Ideas Launched</div>
-        <div class="stat-value" data-count="6">0</div>
-        <div class="stat-change">+2 this week</div>
+        <div class="stat-value" id="statGoalsTotal">0</div>
+        <div class="stat-change" id="statGoalsTotalChange"></div>
       </div>
 
     </div>
@@ -68,70 +74,31 @@
       <div class="dash-panel">
         <div class="dash-panel-title">Recent Activity</div>
         <div class="activity-list"></div>
+        <p class="entry-empty" id="activityEmpty" hidden>No activity yet — create a note or goal to get started.</p>
       </div>
 
       <div class="dash-panel delay">
         <div class="dash-panel-title">Weekly Notes</div>
 
         <div class="chart-wrap">
-          <div class="chart-bars">
-            <div class="chart-bar-col">
-              <div class="chart-bar" data-h="40px" style="height:0"></div>
-              <div class="chart-bar-lbl">M</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar active" data-h="65px" style="height:0"></div>
-              <div class="chart-bar-lbl">T</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar" data-h="50px" style="height:0"></div>
-              <div class="chart-bar-lbl">W</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar" data-h="30px" style="height:0"></div>
-              <div class="chart-bar-lbl">T</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar active" data-h="75px" style="height:0"></div>
-              <div class="chart-bar-lbl">F</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar" data-h="55px" style="height:0"></div>
-              <div class="chart-bar-lbl">S</div>
-            </div>
-
-            <div class="chart-bar-col">
-              <div class="chart-bar active" data-h="68px" style="height:0"></div>
-              <div class="chart-bar-lbl">S</div>
-            </div>
-          </div>
+          <div class="chart-bars" id="weeklyChart"></div>
         </div>
 
         <div class="dash-panel-title dash-mt">Quick Info</div>
 
         <div class="info-row">
-          <span class="info-label">Productivity score</span>
-          <span class="info-value green">94 / 100</span>
-        </div>
-
-        <div class="info-row">
-          <span class="info-label">Focus hours today</span>
-          <span class="info-value">3h 45m</span>
-        </div>
-
-        <div class="info-row">
           <span class="info-label">Tasks due today</span>
-          <span class="info-value">5</span>
+          <span class="info-value" id="infoDueToday">0</span>
         </div>
 
         <div class="info-row">
-          <span class="info-label">Active boards</span>
-          <span class="info-value green">4</span>
+          <span class="info-label">Overdue</span>
+          <span class="info-value" id="infoOverdue">0</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Notes today</span>
+          <span class="info-value" id="infoNotesToday">0</span>
         </div>
 
       </div>
@@ -140,8 +107,7 @@
 
   </main>
 
-  <script src="js/utils.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script type="module" src="/src/dashboard.js"></script>
 
 </body>
 </html>
