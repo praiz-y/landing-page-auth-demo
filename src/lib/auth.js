@@ -13,6 +13,27 @@ export async function signIn({ email, password }) {
   return safeCall(supabase.auth.signInWithPassword({ email, password }));
 }
 
+// Requires "Allow anonymous sign-ins" enabled in the Supabase dashboard
+// (Authentication > Sign In / Providers) — off by default, no SQL toggle.
+export async function signInAsGuest() {
+  return safeCall(supabase.auth.signInAnonymously());
+}
+
+export function isGuest(session) {
+  return !!session?.user?.is_anonymous;
+}
+
+// Upgrades the current anonymous session into a real account in place —
+// same user_id, so every note/goal the guest already created carries over
+// automatically instead of needing to be copied.
+export async function convertGuestAccount({ username, email, password }) {
+  return safeCall(supabase.auth.updateUser({
+    email,
+    password,
+    data: { username }
+  }));
+}
+
 export async function getSession() {
   const { data } = await supabase.auth.getSession();
   return data.session;

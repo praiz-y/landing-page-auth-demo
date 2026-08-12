@@ -215,6 +215,32 @@
   transform: none;
 }
 
+/* Guest access */
+.btn-guest {
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--tr);
+  margin-bottom: 1.1rem;
+}
+
+.btn-guest:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.btn-guest:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Small divider */
 .auth-divider {
   display: flex;

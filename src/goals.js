@@ -1,6 +1,10 @@
 import { showAlert, setUserChrome, escapeHtml, setFieldError, clearAllErrors, focusFirstInvalid, wireConfirmDelete } from './utils.js';
-import { guard, getUsername, logout } from './lib/auth.js';
-import { listGoals, createGoal, toggleGoalDone, deleteGoal } from './lib/goals.js';
+import { guard, getUsername, logout, isGuest } from './lib/auth.js';
+import { listGoals, createGoal, toggleGoalDone, deleteGoal, searchGoals } from './lib/goals.js';
+import { toSearchTerm, debounce } from './lib/search.js';
+import { initCommandPalette, buildDefaultCommands } from './commandPalette.js';
+import { subscribeToTable, applyRealtimeChange } from './lib/realtime.js';
+import { renderGuestBanner } from './guestBanner.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -9,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const userId = session.user.id;
   setUserChrome(getUsername(session));
+  if (isGuest(session)) renderGuestBanner();
 
   document.querySelectorAll('.js-logout').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -16,12 +21,21 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   });
 
+  const palette = initCommandPalette(function () {
+    return buildDefaultCommands({ page: 'goals', logout: logout });
+  });
+  document.getElementById('cmdkTrigger')?.addEventListener('click', palette.open);
+
   const form = document.getElementById('goalForm');
   const titleEl = document.getElementById('goalTitle');
   const dueEl = document.getElementById('goalDue');
   const submitBtn = document.getElementById('goalSubmitBtn');
   const listEl = document.querySelector('.goals-list');
   const emptyEl = document.querySelector('.goals-empty');
+  const searchEmptyEl = document.querySelector('.goals-search-empty');
+  const searchEl = document.getElementById('goalSearch');
+  let activeQuery = null;
+  let goals = [];
 
   // Arrived from a note's "→ Goal" quick-create link (notes.js). The note
   // itself is left untouched — this only pre-fills the form.
@@ -68,15 +82,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   // actually finds a match after a toggle (the row survives, only its
   // done state changes), and falls back to the form's title field when it
   // doesn't (e.g. the row was just deleted).
-  function render(goals) {
+  function render(list) {
     const active = document.activeElement;
     const activeRole = active && listEl.contains(active) && active.dataset.id
       ? ['js-toggle-goal', 'js-delete-goal'].find(function (c) { return active.classList.contains(c); })
       : null;
     const activeId = activeRole ? active.dataset.id : null;
 
-    emptyEl.hidden = goals.length > 0;
-    listEl.innerHTML = goals.map(renderGoalRow).join('');
+    emptyEl.hidden = list.length > 0 || !!activeQuery;
+    searchEmptyEl.hidden = list.length > 0 || !activeQuery;
+    listEl.innerHTML = list.map(renderGoalRow).join('');
 
     listEl.querySelectorAll('.js-toggle-goal').forEach(function (cb) {
       cb.addEventListener('change', function () {
@@ -97,15 +112,27 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function refresh() {
-    const { data, error } = await listGoals();
+    const { data, error } = activeQuery
+      ? await searchGoals(activeQuery)
+      : await listGoals();
 
     if (error) {
-      showAlert('Could not load goals.', 'error');
+      showAlert(activeQuery ? 'Search failed.' : 'Could not load goals.', 'error');
       return;
     }
 
-    render(data);
+    goals = data;
+    render(goals);
   }
+
+  const runSearch = debounce(function (value) {
+    activeQuery = toSearchTerm(value);
+    refresh();
+  }, 250);
+
+  searchEl.addEventListener('input', function () {
+    runSearch(searchEl.value);
+  });
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -155,6 +182,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     showAlert('Goal deleted.', 'success');
     refresh();
   }
+
+  function byCreatedAtDesc(a, b) {
+    return new Date(b.created_at) - new Date(a.created_at);
+  }
+
+  // See notes.js for why this is skipped during an active search.
+  const unsubscribeGoals = subscribeToTable('goals', userId, function (payload) {
+    if (activeQuery) return;
+    goals = applyRealtimeChange(goals, payload, { sortFn: byCreatedAtDesc });
+    render(goals);
+  });
+
+  window.addEventListener('pagehide', unsubscribeGoals, { once: true });
 
   refresh();
 });

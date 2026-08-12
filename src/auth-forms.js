@@ -1,9 +1,52 @@
 import { showAlert, validateEmail, setFieldError, clearFieldError, clearAllErrors, focusFirstInvalid } from './utils.js';
-import { signUp, signIn, guardRedirect } from './lib/auth.js';
+import { signUp, signIn, guardRedirect, signInAsGuest } from './lib/auth.js';
+import { seedGuestWorkspace } from './lib/demoSeed.js';
+
+async function startGuestSession(triggerBtn) {
+  if (triggerBtn) {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = 'Setting up...';
+  }
+
+  const { data, error } = await signInAsGuest();
+
+  if (error) {
+    showAlert(
+      error.message.includes('Anonymous sign-ins are disabled')
+        ? 'Guest access isn’t turned on for this project yet.'
+        : 'Could not start a guest session: ' + error.message,
+      'error'
+    );
+
+    if (triggerBtn) {
+      triggerBtn.disabled = false;
+      triggerBtn.textContent = 'Continue as Guest';
+    }
+    return;
+  }
+
+  await seedGuestWorkspace(data.user.id);
+  window.location.href = 'dashboard.html';
+}
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-  await guardRedirect();
+  const alreadySignedIn = await guardRedirect();
+  if (alreadySignedIn) return;
+
+  const guestBtn = document.getElementById('guestBtn');
+
+  if (guestBtn) {
+    guestBtn.addEventListener('click', function () {
+      startGuestSession(guestBtn);
+    });
+  }
+
+  // A landing-page "Try the Demo" link points here with ?guest=1 so guest
+  // sign-in works without adding Supabase to the marketing page's bundle.
+  if (new URLSearchParams(window.location.search).get('guest') === '1') {
+    startGuestSession(guestBtn);
+  }
 
   // Login
   const loginForm = document.getElementById('loginForm');

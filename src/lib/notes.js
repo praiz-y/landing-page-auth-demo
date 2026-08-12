@@ -8,6 +8,20 @@ export async function listNotes() {
   return { data: data || [], error };
 }
 
+// `websearch` mode accepts plain natural-language input (quotes, "or",
+// leading "-" to exclude) instead of requiring tsquery syntax like `a & b`.
+export async function searchNotes(term) {
+  const { data, error } = await safeCall(
+    supabase
+      .from('notes')
+      .select('*')
+      .textSearch('search_vector', term, { type: 'websearch' })
+      .order('updated_at', { ascending: false })
+  );
+
+  return { data: data || [], error };
+}
+
 export async function createNote(userId, { title, body }) {
   return safeCall(
     supabase.from('notes').insert({ user_id: userId, title, body }).select().single()

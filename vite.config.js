@@ -16,5 +16,17 @@ export default defineConfig({
         goals: resolve(root, 'goals.html')
       }
     }
+  },
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.test.js'],
+    setupFiles: ['./vitest.setup.js'],
+    // The default 'forks' pool times out spawning worker processes in this
+    // sandboxed environment (child_process fork is restricted) — 'threads'
+    // uses worker_threads instead, which isn't. maxWorkers: 1 avoids
+    // spinning up multiple jsdom environments in parallel, which was
+    // exhausting available memory here.
+    pool: 'threads',
+    maxWorkers: 1
   }
 });

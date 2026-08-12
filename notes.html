@@ -20,6 +20,7 @@
     </div>
 
     <div class="dash-nav-right">
+      <button class="cmdk-trigger" id="cmdkTrigger" type="button" aria-label="Open command palette (Ctrl+K)">Ctrl K</button>
       <span class="dash-username js-username"></span>
       <div class="dash-avatar js-initial">?</div>
       <button class="logout-btn js-logout">Log out</button>
@@ -63,8 +64,19 @@
       </div>
     </form>
 
+    <div class="search-row">
+      <input
+        type="search"
+        id="noteSearch"
+        class="search-input"
+        placeholder="Search notes..."
+        aria-label="Search notes"
+      >
+    </div>
+
     <div class="entry-list notes-list"></div>
     <p class="entry-empty notes-empty" hidden>No notes yet — add your first one above.</p>
+    <p class="entry-empty notes-search-empty" hidden>No notes match your search.</p>
 
   </main>
 

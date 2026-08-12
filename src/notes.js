@@ -1,6 +1,10 @@
 import { showAlert, setUserChrome, escapeHtml, setFieldError, clearAllErrors, focusFirstInvalid, wireConfirmDelete } from './utils.js';
-import { guard, getUsername, logout } from './lib/auth.js';
-import { listNotes, createNote, updateNote, deleteNote } from './lib/notes.js';
+import { guard, getUsername, logout, isGuest } from './lib/auth.js';
+import { listNotes, createNote, updateNote, deleteNote, searchNotes } from './lib/notes.js';
+import { toSearchTerm, debounce } from './lib/search.js';
+import { initCommandPalette, buildDefaultCommands } from './commandPalette.js';
+import { subscribeToTable, applyRealtimeChange } from './lib/realtime.js';
+import { renderGuestBanner } from './guestBanner.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -9,12 +13,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const userId = session.user.id;
   setUserChrome(getUsername(session));
+  if (isGuest(session)) renderGuestBanner();
 
   document.querySelectorAll('.js-logout').forEach(function (btn) {
     btn.addEventListener('click', function () {
       logout('index.html');
     });
   });
+
+  const palette = initCommandPalette(function () {
+    return buildDefaultCommands({ page: 'notes', logout: logout });
+  });
+  document.getElementById('cmdkTrigger')?.addEventListener('click', palette.open);
 
   const form = document.getElementById('noteForm');
   const titleEl = document.getElementById('noteTitle');
@@ -23,9 +33,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   const cancelBtn = document.getElementById('noteCancelBtn');
   const listEl = document.querySelector('.notes-list');
   const emptyEl = document.querySelector('.notes-empty');
+  const searchEmptyEl = document.querySelector('.notes-search-empty');
+  const searchEl = document.getElementById('noteSearch');
 
   let notes = [];
   let editingId = null;
+  let activeQuery = null;
 
   function resetForm() {
     editingId = null;
@@ -70,7 +83,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       : null;
     const activeId = activeRole ? active.dataset.id : null;
 
-    emptyEl.hidden = notes.length > 0;
+    emptyEl.hidden = notes.length > 0 || !!activeQuery;
+    searchEmptyEl.hidden = notes.length > 0 || !activeQuery;
     listEl.innerHTML = notes.map(renderNoteCard).join('');
 
     listEl.querySelectorAll('.js-edit-note').forEach(function (btn) {
@@ -92,16 +106,27 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function refresh() {
-    const { data, error } = await listNotes();
+    const { data, error } = activeQuery
+      ? await searchNotes(activeQuery)
+      : await listNotes();
 
     if (error) {
-      showAlert('Could not load notes.', 'error');
+      showAlert(activeQuery ? 'Search failed.' : 'Could not load notes.', 'error');
       return;
     }
 
     notes = data;
     render();
   }
+
+  const runSearch = debounce(function (value) {
+    activeQuery = toSearchTerm(value);
+    refresh();
+  }, 250);
+
+  searchEl.addEventListener('input', function () {
+    runSearch(searchEl.value);
+  });
 
   function startEdit(id) {
     const note = notes.find(function (n) { return n.id === id; });
@@ -167,6 +192,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     showAlert('Note deleted.', 'success');
     refresh();
   }
+
+  function byUpdatedAtDesc(a, b) {
+    return new Date(b.updated_at) - new Date(a.updated_at);
+  }
+
+  // Live updates from other tabs/devices for this same account. Skipped
+  // while a search is active — merging a raw change into a filtered result
+  // set would need the same text-search logic Postgres just ran, so the
+  // simpler, still-correct behavior is to leave the filtered view as-is
+  // until the next search or a cleared search box picks it up.
+  const unsubscribeNotes = subscribeToTable('notes', userId, function (payload) {
+    if (activeQuery) return;
+    notes = applyRealtimeChange(notes, payload, { sortFn: byUpdatedAtDesc });
+    render();
+  });
+
+  window.addEventListener('pagehide', unsubscribeNotes, { once: true });
 
   refresh();
 });

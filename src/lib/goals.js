@@ -8,6 +8,18 @@ export async function listGoals() {
   return { data: data || [], error };
 }
 
+export async function searchGoals(term) {
+  const { data, error } = await safeCall(
+    supabase
+      .from('goals')
+      .select('*')
+      .textSearch('search_vector', term, { type: 'websearch' })
+      .order('created_at', { ascending: false })
+  );
+
+  return { data: data || [], error };
+}
+
 export async function createGoal(userId, { title, due_date }) {
   return safeCall(
     supabase.from('goals').insert({ user_id: userId, title, due_date: due_date || null }).select().single()

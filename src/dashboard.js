@@ -1,7 +1,9 @@
 import { showAlert, setUserChrome, escapeHtml, formatRelativeTime } from './utils.js';
-import { guard, getUsername, logout } from './lib/auth.js';
+import { guard, getUsername, logout, isGuest } from './lib/auth.js';
 import { listNotes } from './lib/notes.js';
 import { listGoals } from './lib/goals.js';
+import { initCommandPalette, buildDefaultCommands } from './commandPalette.js';
+import { renderGuestBanner } from './guestBanner.js';
 import {
   currentStreak,
   longestStreak,
@@ -20,12 +22,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const username = getUsername(session);
   setUserChrome(username);
+  if (isGuest(session)) renderGuestBanner();
 
   document.querySelectorAll('.js-logout').forEach(function (btn) {
     btn.addEventListener('click', function () {
       logout('index.html');
     });
   });
+
+  const palette = initCommandPalette(function () {
+    return buildDefaultCommands({ page: 'dashboard', logout: logout });
+  });
+  document.getElementById('cmdkTrigger')?.addEventListener('click', palette.open);
 
   function animateCount(el, end, suffix) {
     const duration = 1000;
