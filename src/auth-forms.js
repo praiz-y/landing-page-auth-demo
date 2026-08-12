@@ -1,4 +1,4 @@
-import { showAlert, validateEmail, setFieldError, clearFieldError, clearAllErrors } from './utils.js';
+import { showAlert, validateEmail, setFieldError, clearFieldError, clearAllErrors, focusFirstInvalid } from './utils.js';
 import { signUp, signIn, guardRedirect } from './lib/auth.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -41,7 +41,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         valid = false;
       }
 
-      if (!valid) return;
+      if (!valid) {
+        focusFirstInvalid(loginForm);
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Logging in...';
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Log In';
         setFieldError(passwordEl, 'Incorrect email or password.');
+        passwordEl.focus();
         showAlert('Login failed. Check your details.', 'error');
         return;
       }
@@ -115,7 +119,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         valid = false;
       }
 
-      if (!valid) return;
+      if (!valid) {
+        focusFirstInvalid(signupForm);
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Creating account...';
@@ -126,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create Account';
         setFieldError(emailEl, error.message);
+        emailEl.focus();
         showAlert(error.message, 'error');
         return;
       }

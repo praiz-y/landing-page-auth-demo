@@ -1,4 +1,4 @@
-import { showAlert, setUserChrome, escapeHtml, setFieldError, clearAllErrors } from './utils.js';
+import { showAlert, setUserChrome, escapeHtml, setFieldError, clearAllErrors, focusFirstInvalid, wireConfirmDelete } from './utils.js';
 import { guard, getUsername, logout } from './lib/auth.js';
 import { listNotes, createNote, updateNote, deleteNote } from './lib/notes.js';
 
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async function () {
           '<div class="note-card-title">' + escapeHtml(note.title) + '</div>' +
           '<div class="note-card-actions">' +
             '<button type="button" class="js-edit-note" data-id="' + note.id + '">Edit</button>' +
+            '<a class="js-note-to-goal" href="goals.html?title=' + encodeURIComponent(note.title) + '">&rarr; Goal</a>' +
             '<button type="button" class="js-delete-note" data-id="' + note.id + '">Delete</button>' +
           '</div>' +
         '</div>' +
@@ -57,7 +58,18 @@ document.addEventListener('DOMContentLoaded', async function () {
     );
   }
 
+  // Full-list re-render replaces every node inside listEl, which would
+  // otherwise drop keyboard focus to <body>. Remember what had focus (if
+  // it was inside the list) and try to restore it afterward; if that exact
+  // control no longer exists (e.g. its row was just deleted), land on the
+  // form's title field instead of leaving focus stranded.
   function render() {
+    const active = document.activeElement;
+    const activeRole = active && listEl.contains(active) && active.dataset.id
+      ? ['js-edit-note', 'js-delete-note'].find(function (c) { return active.classList.contains(c); })
+      : null;
+    const activeId = activeRole ? active.dataset.id : null;
+
     emptyEl.hidden = notes.length > 0;
     listEl.innerHTML = notes.map(renderNoteCard).join('');
 
@@ -68,10 +80,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     listEl.querySelectorAll('.js-delete-note').forEach(function (btn) {
-      btn.addEventListener('click', function () {
+      wireConfirmDelete(btn, function () {
         handleDelete(btn.dataset.id);
-      });
+      }, { armedText: 'Confirm?', armedAriaLabel: 'Click again to permanently delete this note' });
     });
+
+    if (activeRole) {
+      const restored = listEl.querySelector('.' + activeRole + '[data-id="' + activeId + '"]');
+      (restored || titleEl).focus();
+    }
   }
 
   async function refresh() {
@@ -100,6 +117,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   cancelBtn.addEventListener('click', resetForm);
 
+  bodyEl.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     clearAllErrors(form);
@@ -109,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (!title) {
       setFieldError(titleEl, 'Title is required.');
+      focusFirstInvalid(form);
       return;
     }
 

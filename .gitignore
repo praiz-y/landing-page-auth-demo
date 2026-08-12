@@ -1,5 +1,33 @@
 node_modules/
 dist/
+
+# Planning docs and AI change-log — kept locally, not on the public repo
+docs/
+.ai/
+.impeccable/
+
+# Environment
+.env
 .env.local
 .env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite sometimes emits a timestamped temp config during dev/build
+vite.config.*.timestamp-*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Throwaway verification scripts (created and deleted within a session —
+# this is just a safety net in case one is ever left behind)
+.tmp-*
+
 Supabase DB Pswd.txt

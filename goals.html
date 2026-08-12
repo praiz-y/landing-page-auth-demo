@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Goals - Var Notes</title>
   <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
@@ -41,6 +42,7 @@
             id="goalTitle"
             class="form-control"
             placeholder="What are you working toward?"
+            autofocus
           >
           <div class="form-error"></div>
         </div>
@@ -57,7 +59,7 @@
     </form>
 
     <div class="entry-list goals-list"></div>
-    <p class="entry-empty goals-empty">No goals yet — add your first one above.</p>
+    <p class="entry-empty goals-empty" hidden>No goals yet — add your first one above.</p>
 
   </main>
 

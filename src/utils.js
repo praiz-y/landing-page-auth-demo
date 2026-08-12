@@ -1,6 +1,21 @@
 const alertContainer = document.createElement('div');
 alertContainer.className = 'alert-container';
+alertContainer.setAttribute('role', 'status');
+alertContainer.setAttribute('aria-live', 'polite');
 document.body.appendChild(alertContainer);
+
+// Visually-hidden live region for transient state changes that sighted
+// users already see (e.g. a delete button arming) and don't need a visible
+// toast for, but screen reader users otherwise get zero signal from.
+const srAnnouncer = document.createElement('div');
+srAnnouncer.className = 'sr-only';
+srAnnouncer.setAttribute('role', 'status');
+srAnnouncer.setAttribute('aria-live', 'assertive');
+document.body.appendChild(srAnnouncer);
+
+export function announce(message) {
+  srAnnouncer.textContent = message;
+}
 
 export function showAlert(message, type, duration) {
   const icons = { success: '✓', error: '✕', info: '•' };
@@ -121,6 +136,43 @@ export function formatRelativeTime(iso) {
   return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
+// Arms a destructive button on first click (shows a "confirm?" state for a
+// few seconds); a second click while armed actually runs the action. Any
+// other click, or letting the window expire, reverts it. No modal — this
+// runs on a freshly-created button every render, so no cross-render state
+// tracking is needed.
+export function wireConfirmDelete(btn, onConfirm, options) {
+  const opts = options || {};
+  const armedAriaLabel = opts.armedAriaLabel || 'Click again to confirm delete';
+  const originalText = btn.textContent;
+  const originalAriaLabel = btn.getAttribute('aria-label');
+
+  function disarm() {
+    clearTimeout(btn._confirmTimer);
+    btn.classList.remove('confirming');
+    if (opts.armedText) btn.textContent = originalText;
+    if (originalAriaLabel) {
+      btn.setAttribute('aria-label', originalAriaLabel);
+    } else {
+      btn.removeAttribute('aria-label');
+    }
+  }
+
+  btn.addEventListener('click', function () {
+    if (btn.classList.contains('confirming')) {
+      disarm();
+      onConfirm();
+      return;
+    }
+
+    btn.classList.add('confirming');
+    if (opts.armedText) btn.textContent = opts.armedText;
+    btn.setAttribute('aria-label', armedAriaLabel);
+    announce(armedAriaLabel);
+    btn._confirmTimer = setTimeout(disarm, 3000);
+  });
+}
+
 export function setUserChrome(username) {
   const initial = username.charAt(0).toUpperCase();
 
@@ -134,16 +186,21 @@ export function setUserChrome(username) {
 
 export function setFieldError(input, message) {
   input.classList.add('error');
+  input.setAttribute('aria-invalid', 'true');
 
   const err = input.closest('.form-group')?.querySelector('.form-error');
   if (err) {
+    if (!err.id) err.id = input.id + '-error';
     err.textContent = message;
     err.classList.add('show');
+    input.setAttribute('aria-describedby', err.id);
   }
 }
 
 export function clearFieldError(input) {
   input.classList.remove('error');
+  input.removeAttribute('aria-invalid');
+  input.removeAttribute('aria-describedby');
 
   const err = input.closest('.form-group')?.querySelector('.form-error');
   if (err) {
@@ -153,6 +210,13 @@ export function clearFieldError(input) {
 
 export function clearAllErrors(form) {
   form.querySelectorAll('.form-control').forEach(clearFieldError);
+}
+
+// Call after validation fails, so keyboard/screen-reader users land on the
+// first problem instead of a form that silently did nothing.
+export function focusFirstInvalid(form) {
+  const firstInvalid = form.querySelector('.form-control.error');
+  if (firstInvalid) firstInvalid.focus();
 }
 
 document.querySelectorAll('.pwd-toggle').forEach(function (btn) {

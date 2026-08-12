@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notes - Var Notes</title>
   <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
@@ -40,6 +41,7 @@
           id="noteTitle"
           class="form-control"
           placeholder="What's the idea?"
+          autofocus
         >
         <div class="form-error"></div>
       </div>
@@ -52,6 +54,7 @@
           rows="3"
           placeholder="Optional — add more context"
         ></textarea>
+        <div class="form-hint">Ctrl/Cmd + Enter to save</div>
       </div>
 
       <div class="entry-form-actions">
@@ -61,7 +64,7 @@
     </form>
 
     <div class="entry-list notes-list"></div>
-    <p class="entry-empty notes-empty">No notes yet — add your first one above.</p>
+    <p class="entry-empty notes-empty" hidden>No notes yet — add your first one above.</p>
 
   </main>
 

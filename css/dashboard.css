@@ -33,7 +33,7 @@
 .dash-nav-links a {
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-dim);
+  color: var(--text);
   transition: color var(--tr);
 }
 
@@ -74,7 +74,7 @@
 .logout-btn {
   font-size: 0.82rem;
   font-weight: 500;
-  color: var(--text-dim);
+  color: var(--text);
   background: none;
   border: 1px solid var(--border-2);
   border-radius: var(--radius);
@@ -188,7 +188,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-dim);
+  color: var(--text);
   margin-bottom: 0.6rem;
 }
 
@@ -208,7 +208,7 @@
 }
 
 .stat-change.neutral {
-  color: var(--text-dim);
+  color: var(--text);
 }
 
 /* Panels */
@@ -273,7 +273,7 @@
 
 .activity-time {
   font-size: 0.7rem;
-  color: var(--text-dim);
+  color: var(--text);
   margin-top: 0.1rem;
 }
 
@@ -292,7 +292,7 @@
 
 .info-label {
   font-size: 0.8rem;
-  color: var(--text-dim);
+  color: var(--text);
 }
 
 .info-value {
@@ -347,7 +347,7 @@
 
 .chart-bar-lbl {
   font-size: 0.58rem;
-  color: var(--text-dim);
+  color: var(--text);
 }
 
 @keyframes barGrow {
@@ -407,6 +407,13 @@
   }
 }
 
+@media (max-width: 480px) {
+  .entry-form-row {
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+}
+
 /* Page head (Notes / Goals) */
 .page-head {
   margin-bottom: 2rem;
@@ -459,7 +466,7 @@
 .btn-cancel {
   background: none;
   border: none;
-  color: var(--text-dim);
+  color: var(--text);
   font-size: 0.82rem;
   cursor: pointer;
   padding: 0.5rem;
@@ -472,7 +479,7 @@
 
 .entry-empty {
   font-size: 0.85rem;
-  color: var(--text-dim);
+  color: var(--text);
   text-align: center;
   padding: 2rem 0;
 }
@@ -507,22 +514,38 @@
   flex-shrink: 0;
 }
 
-.note-card-actions button {
+.note-card-actions button,
+.note-card-actions a {
   background: none;
-  border: none;
-  color: var(--text-dim);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text);
   font-size: 0.75rem;
   cursor: pointer;
-  padding: 0.2rem 0.35rem;
-  transition: color var(--tr);
+  padding: 0.85rem 0.75rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color var(--tr), background var(--tr), border-color var(--tr);
 }
 
 .note-card-actions .js-edit-note:hover {
   color: var(--green);
 }
 
+.note-card-actions .js-note-to-goal:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
 .note-card-actions .js-delete-note:hover {
   color: var(--red);
+}
+
+.note-card-actions .js-delete-note.confirming {
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--red);
 }
 
 .note-card-body {
@@ -534,7 +557,7 @@
 
 .note-card-time {
   font-size: 0.7rem;
-  color: var(--text-dim);
+  color: var(--text);
   margin-top: 0.5rem;
 }
 
@@ -572,25 +595,40 @@
 }
 
 .goal-item.done .goal-title {
-  color: var(--text-dim);
+  color: var(--text);
   text-decoration: line-through;
 }
 
 .goal-due {
   font-size: 0.72rem;
-  color: var(--text-dim);
+  color: var(--text);
   flex-shrink: 0;
+}
+
+.goal-due.overdue {
+  color: var(--red);
+  font-weight: 600;
 }
 
 .goal-delete {
   background: none;
-  border: none;
-  color: var(--text-dim);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text);
   cursor: pointer;
   font-size: 0.85rem;
-  padding: 0.2rem 0.35rem;
+  padding: 0.85rem;
   flex-shrink: 0;
-  transition: color var(--tr);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--tr), background var(--tr), border-color var(--tr);
+}
+
+.goal-delete.confirming {
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--red);
 }
 
 .goal-delete:hover {
